@@ -15,7 +15,6 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { pathToFileURL } from 'node:url'
 
 const ROOT = process.cwd()
 
@@ -44,15 +43,6 @@ if (labels.size < 10) {
 const ENUM_FIELDS = new Set(['relation'])
 
 const failures = []
-
-/* 让 ts 源码在 Node 里可跑：用构建产物，而不是直接 import .ts */
-const distEntry = join(ROOT, 'build', 'cli.mjs')
-try {
-  readFileSync(distEntry)
-} catch {
-  console.error('缺少 build/cli.mjs：先跑 npm run build:all，或把本门禁放到 build 之后。')
-  process.exit(1)
-}
 
 const coreFiles = ['src/core/meihuaFacts.ts', 'src/core/bazi.ts', 'src/core/ziwei.ts']
 for (const file of coreFiles) {
